@@ -57,7 +57,7 @@ class EnvironmentThreatSQLiteDatabase(context: Context) {
 
         cursor.close()
 
-        return Optional.of(EnvironmentThreat(threatId, address, date, description))
+        return Optional.of(EnvironmentThreat(threatId, address, date, description, ""))
     }
 
     @SuppressLint("Range")
@@ -78,7 +78,7 @@ class EnvironmentThreatSQLiteDatabase(context: Context) {
             val address = cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS))
             val date = cursor.getString(cursor.getColumnIndex(COLUMN_DATE))
             val description = cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION))
-            environmentThreats.add(EnvironmentThreat(id, address, date, description))
+            environmentThreats.add(EnvironmentThreat(id, address, date, description, ""))
         }
 
         cursor.close()

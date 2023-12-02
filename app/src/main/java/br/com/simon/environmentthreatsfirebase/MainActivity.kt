@@ -1,31 +1,64 @@
 package br.com.simon.environmentthreatsfirebase
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Base64
 import android.view.View
-import android.view.ViewGroup
-import android.widget.BaseAdapter
+import android.widget.AdapterView
+import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.firebase.ui.database.FirebaseListAdapter
+import com.firebase.ui.database.FirebaseListOptions
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var adapter: EnvironmentThreatsAdapter
+    private val db: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private val root: DatabaseReference = db.reference
+    private val threats: DatabaseReference = root.child(Constants.THREATS_KEY)
+
+    private lateinit var adapter: FirebaseListAdapter<EnvironmentThreat>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val listView: ListView = findViewById(R.id.listView)
         val db = EnvironmentThreatSQLiteDatabase(baseContext)
-        adapter = EnvironmentThreatsAdapter(db, baseContext)
+
+        val options = FirebaseListOptions.Builder<EnvironmentThreat>()
+                                         .setQuery(threats, EnvironmentThreat::class.java)
+                                         .setLayout(R.layout.environment_threat)
+                                         .build()
+
+        adapter = object: FirebaseListAdapter<EnvironmentThreat>(options) {
+
+            override fun populateView(v: View, threat: EnvironmentThreat, position: Int) {
+                val txtSaida = v.findViewById<View>(R.id.description) as TextView
+                val txtDate = v.findViewById<View>(R.id.date) as TextView
+                val image = v.findViewById<View>(R.id.image) as ImageView
+                if (threat.image != null) {
+                    val baos: ByteArray = Base64.decode(threat.image, Base64.DEFAULT)
+                    val bmp: Bitmap = BitmapFactory.decodeByteArray(baos, 0, baos.size)
+                    image.setImageBitmap(bmp)
+                }
+                txtSaida.text = threat.description
+                txtDate.text = threat.date
+            }
+
+        }
+
         listView.adapter = adapter
 
-        listView.setOnItemClickListener { _, _, _, l ->
-            changeToUpdate(l)
+        adapter.startListening()
+
+        listView.setOnItemClickListener { _, _, position, _ ->
+            val item = adapter.getRef(position)
+            changeToUpdate(item.key!!, adapter.getItem(position))
         }
 
         listView.setOnItemLongClickListener { _, _, _, l ->
@@ -46,40 +79,12 @@ class MainActivity : AppCompatActivity() {
         startActivity(it)
     }
 
-    private fun changeToUpdate(id: Long) {
+    private fun changeToUpdate(key: String, threat: EnvironmentThreat) {
         val it = Intent(baseContext, EditEnvironmentThreat::class.java)
-        it.putExtra("ID", id)
+        it.putExtra("KEY", key)
+        it.putExtra("THT", threat)
         startActivity(it)
     }
 
 }
 
-class EnvironmentThreatsAdapter(private val db: EnvironmentThreatSQLiteDatabase,
-                                context: Context) : BaseAdapter() {
-
-    private val inflator = LayoutInflater.from(context)
-
-    override fun getCount(): Int {
-        return db.getEnvironmentThreats().size
-    }
-
-    override fun getItem(i: Int): Any {
-        return db.getEnvironmentThreats()[i]
-    }
-
-    override fun getItemId(i: Int): Long {
-        return db.getEnvironmentThreats()[i].id
-    }
-
-    @SuppressLint("ViewHolder")
-    override fun getView(i: Int, p1: View?, p2: ViewGroup?): View {
-        val v: View = inflator.inflate(R.layout.environment_threat, null)
-        val txtSaida = v.findViewById<View>(R.id.description) as TextView
-        val txtDate = v.findViewById<View>(R.id.date) as TextView
-        val environmentThreat: EnvironmentThreat = db.getEnvironmentThreats()[i]
-        txtSaida.text = environmentThreat.description
-        txtDate.text = environmentThreat.date
-        return v
-    }
-
-}

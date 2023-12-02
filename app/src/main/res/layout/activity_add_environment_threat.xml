@@ -96,6 +96,7 @@
         android:layout_width="228dp"
         android:layout_height="41dp"
         android:layout_marginStart="8dp"
+        android:onClick="takePicture"
         android:text="TIRAR FOTO"
         app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintStart_toStartOf="parent"

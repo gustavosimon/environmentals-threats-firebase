@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1017335224844",
+    "project_id": "environmentalthreatsfire-a105a",
+    "storage_bucket": "environmentalthreatsfire-a105a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017335224844:android:d2640fe57f879db05e6c29",
+        "android_client_info": {
+          "package_name": "br.com.simon.environmentthreatsfirebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMq-6m8WtV6-EtDIKFlTxQIBO3hdmME6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
