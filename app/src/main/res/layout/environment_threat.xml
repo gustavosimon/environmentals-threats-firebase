@@ -7,8 +7,8 @@
 
     <TextView
         android:id="@+id/description"
-        android:layout_width="393dp"
-        android:layout_height="19dp"
+        android:layout_width="275dp"
+        android:layout_height="17dp"
         android:text="description"
         android:textColor="#000000"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,5 +22,15 @@
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description" />
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="126dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/description"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
