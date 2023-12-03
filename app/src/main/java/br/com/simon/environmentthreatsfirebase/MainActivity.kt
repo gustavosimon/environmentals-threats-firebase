@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                 val txtSaida = v.findViewById<View>(R.id.description) as TextView
                 val txtDate = v.findViewById<View>(R.id.date) as TextView
                 val image = v.findViewById<View>(R.id.image) as ImageView
-                if (threat.image != null) {
+                if (threat.image != "") {
                     val baos: ByteArray = Base64.decode(threat.image, Base64.DEFAULT)
                     val bmp: Bitmap = BitmapFactory.decodeByteArray(baos, 0, baos.size)
                     image.setImageBitmap(bmp)

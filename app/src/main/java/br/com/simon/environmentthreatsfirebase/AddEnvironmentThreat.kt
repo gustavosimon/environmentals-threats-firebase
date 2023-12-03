@@ -12,6 +12,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.io.ByteArrayOutputStream
 import android.util.Base64
+import java.util.Optional
 
 class AddEnvironmentThreat : AppCompatActivity() {
 
@@ -19,7 +20,7 @@ class AddEnvironmentThreat : AppCompatActivity() {
     private val root: DatabaseReference = db.reference
     private val threats: DatabaseReference = root.child(Constants.THREATS_KEY)
 
-    private lateinit var bmp: Bitmap
+    private var bmp: Optional<Bitmap> = Optional.empty()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +41,11 @@ class AddEnvironmentThreat : AppCompatActivity() {
     }
 
     private fun loadImage(): String {
+        if (!bmp.isPresent) {
+            return ""
+        }
         val baos = ByteArrayOutputStream()
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        bmp.ifPresent { x -> x.compress(Bitmap.CompressFormat.JPEG, 100, baos) }
         return Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT)
     }
 
@@ -53,9 +57,9 @@ class AddEnvironmentThreat : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constants.CAMERA_CALL && resultCode == RESULT_OK) {
-            bmp = data!!.extras!!.get("data") as Bitmap
+            bmp = Optional.of(data!!.extras!!.get("data") as Bitmap)
             val image: ImageView = findViewById(R.id.imageView)
-            image.setImageBitmap(bmp)
+            bmp.ifPresent { x -> image.setImageBitmap(x) }
         }
     }
 
