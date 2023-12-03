@@ -19,6 +19,8 @@ class EditEnvironmentThreat : AppCompatActivity() {
     private lateinit var dateText: EditText
     private lateinit var descriptionText: EditText
 
+    private var key = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_environment_threat)
@@ -27,7 +29,7 @@ class EditEnvironmentThreat : AppCompatActivity() {
         dateText = findViewById(R.id.editDateText)
         descriptionText = findViewById(R.id.editDescriptionText)
 
-        val key = intent.getStringExtra("KEY")
+        key = intent.getStringExtra("KEY")!!
         currentThreat = intent.getSerializableExtra("THT") as EnvironmentThreat
 
         addressText.setText(currentThreat.address)
@@ -36,13 +38,12 @@ class EditEnvironmentThreat : AppCompatActivity() {
     }
 
     fun updateEnvironmentThreat(v: View) {
-        db.updateEnvironmentThreat(
-            EnvironmentThreat(currentEnvironmentThreat.id,
-                                                     addressText.text.toString(),
-                                                     dateText.text.toString(),
-                                                     descriptionText.text.toString(),
-                                                     "")
-        )
+        val newThreat = EnvironmentThreat(currentThreat.id,
+                                          addressText.text.toString(),
+                                          dateText.text.toString(),
+                                          descriptionText.text.toString(),
+                                          currentThreat.image)
+        threats.child(key).setValue(newThreat);
         finish()
     }
 
