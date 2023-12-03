@@ -61,9 +61,9 @@ class MainActivity : AppCompatActivity() {
             changeToUpdate(item.key!!, adapter.getItem(position))
         }
 
-        listView.setOnItemLongClickListener { _, _, _, l ->
-            db.removeEnvironmentThreat(l.toInt())
-            adapter.notifyDataSetChanged()
+        listView.setOnItemLongClickListener { _, _, position, _ ->
+            val item = adapter.getRef(position)
+            item.removeValue()
             true
         }
 
