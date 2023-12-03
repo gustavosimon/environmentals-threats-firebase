@@ -6,11 +6,11 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
 import android.view.View
-import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+
 import com.firebase.ui.database.FirebaseListAdapter
 import com.firebase.ui.database.FirebaseListOptions
 import com.google.firebase.database.DatabaseReference
@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val listView: ListView = findViewById(R.id.listView)
-        val db = EnvironmentThreatSQLiteDatabase(baseContext)
 
         val options = FirebaseListOptions.Builder<EnvironmentThreat>()
                                          .setQuery(threats, EnvironmentThreat::class.java)

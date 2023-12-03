@@ -38,14 +38,12 @@ class EditEnvironmentThreat : AppCompatActivity() {
     }
 
     fun updateEnvironmentThreat(v: View) {
-        val newThreat = EnvironmentThreat(currentThreat.id,
-                                          addressText.text.toString(),
+        val newThreat = EnvironmentThreat(addressText.text.toString(),
                                           dateText.text.toString(),
                                           descriptionText.text.toString(),
                                           currentThreat.image)
         threats.child(key).setValue(newThreat);
         finish()
     }
-
 
 }

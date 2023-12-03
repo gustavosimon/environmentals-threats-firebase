@@ -35,7 +35,7 @@ class AddEnvironmentThreat : AppCompatActivity() {
 
         val image: String = loadImage()
 
-        val environmentThreat = EnvironmentThreat(0, addressText.text.toString(), dateText.text.toString(), descriptionText.text.toString(), image)
+        val environmentThreat = EnvironmentThreat(addressText.text.toString(), dateText.text.toString(), descriptionText.text.toString(), image)
         val key = threats!!.push().key!!
         threats.child(key).setValue(environmentThreat)
         finish()
