@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                     val bmp: Bitmap = BitmapFactory.decodeByteArray(baos, 0, baos.size)
                     image.setImageBitmap(bmp)
                 }
-                txtSaida.text = threat.description
+                txtSaida.text = threat.address
                 txtDate.text = threat.date
             }
 

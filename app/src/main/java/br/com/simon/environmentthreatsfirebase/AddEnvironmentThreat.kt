@@ -13,8 +13,6 @@ import com.google.firebase.database.FirebaseDatabase
 import java.io.ByteArrayOutputStream
 import android.util.Base64
 
-const val CAMERA_CALL = 1022
-
 class AddEnvironmentThreat : AppCompatActivity() {
 
     private val db: FirebaseDatabase = FirebaseDatabase.getInstance()
@@ -49,12 +47,12 @@ class AddEnvironmentThreat : AppCompatActivity() {
 
     fun takePicture(v: View) {
         val camera: Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(camera, CAMERA_CALL)
+        startActivityForResult(camera, Constants.CAMERA_CALL)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CAMERA_CALL && resultCode == RESULT_OK) {
+        if (requestCode == Constants.CAMERA_CALL && resultCode == RESULT_OK) {
             bmp = data!!.extras!!.get("data") as Bitmap
             val image: ImageView = findViewById(R.id.imageView)
             image.setImageBitmap(bmp)
